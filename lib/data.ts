@@ -56,7 +56,7 @@ export async function getComments(loglineId: string): Promise<Comment[]> {
     .from("comments")
     .select("*")
     .eq("logline_id", loglineId)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Error fetching comments:", error);

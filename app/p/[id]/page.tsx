@@ -78,11 +78,11 @@ export default async function DetailPage({ params }: DetailPageProps) {
             {comments.length}
           </span>
         </h2>
-        <div className="mt-4">
-          <CommentForm loglineId={logline.id} />
-        </div>
         <div className="mt-6">
           <CommentList comments={comments} />
+        </div>
+        <div className="mt-4">
+          <CommentForm loglineId={logline.id} />
         </div>
       </div>
     </div>
