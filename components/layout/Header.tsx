@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileText, Shield } from "lucide-react";
+import { FileText } from "lucide-react";
 
 export function Header() {
   return (
@@ -15,13 +15,6 @@ export function Header() {
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             About
-          </Link>
-          <Link
-            href="/admin"
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Shield className="h-4 w-4" />
-            管理画面
           </Link>
         </nav>
       </div>
