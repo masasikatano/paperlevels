@@ -7,7 +7,7 @@ export async function getLoglines(
 ): Promise<Logline[]> {
   const supabase = await createClient();
 
-  let query = supabase.from("loglines").select("*");
+  let query = supabase.schema("public").from("loglines").select("*");
 
   if (search && search.trim().length > 0) {
     query = query.ilike("content", `%${search.trim()}%`);
@@ -23,6 +23,9 @@ export async function getLoglines(
 
   if (error) {
     console.error("Error fetching loglines:", error);
+    console.error(
+      "Hint: If you see PGRST125, make sure you have run 'supabase/schema.sql' in the Supabase SQL Editor."
+    );
     return [];
   }
 
@@ -32,6 +35,7 @@ export async function getLoglines(
 export async function getLoglineById(id: string): Promise<Logline | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
+    .schema("public")
     .from("loglines")
     .select("*")
     .eq("id", id)
@@ -48,6 +52,7 @@ export async function getLoglineById(id: string): Promise<Logline | null> {
 export async function getComments(loglineId: string): Promise<Comment[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
+    .schema("public")
     .from("comments")
     .select("*")
     .eq("logline_id", loglineId)
@@ -64,6 +69,7 @@ export async function getComments(loglineId: string): Promise<Comment[]> {
 export async function incrementShareCount(id: string): Promise<void> {
   const supabase = await createClient();
   const { data: current, error: fetchError } = await supabase
+    .schema("public")
     .from("loglines")
     .select("share_count")
     .eq("id", id)
@@ -75,6 +81,7 @@ export async function incrementShareCount(id: string): Promise<void> {
   }
 
   const { error } = await supabase
+    .schema("public")
     .from("loglines")
     .update({ share_count: current.share_count + 1 })
     .eq("id", id);

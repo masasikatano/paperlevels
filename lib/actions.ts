@@ -13,6 +13,7 @@ export async function createLogline(formData: FormData) {
 
   const supabase = await createClient();
   const { data, error } = await supabase
+    .schema("public")
     .from("loglines")
     .insert({ content: content.trim() })
     .select()
@@ -41,11 +42,14 @@ export async function createComment(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.from("comments").insert({
-    logline_id: loglineId,
-    author_name: authorName?.trim() || null,
-    content: content.trim(),
-  });
+  const { error } = await supabase
+    .schema("public")
+    .from("comments")
+    .insert({
+      logline_id: loglineId,
+      author_name: authorName?.trim() || null,
+      content: content.trim(),
+    });
 
   if (error) {
     console.error("Error creating comment:", error);
@@ -53,6 +57,7 @@ export async function createComment(formData: FormData) {
   }
 
   const { data: current } = await supabase
+    .schema("public")
     .from("loglines")
     .select("comment_count")
     .eq("id", loglineId)
@@ -60,6 +65,7 @@ export async function createComment(formData: FormData) {
 
   if (current) {
     await supabase
+      .schema("public")
       .from("loglines")
       .update({ comment_count: current.comment_count + 1 })
       .eq("id", loglineId);
@@ -76,7 +82,7 @@ export async function deleteLogline(id: string) {
   if (!user) return { error: "認証が必要です" };
 
   const supabase = createAdminClient();
-  const { error } = await supabase.from("loglines").delete().eq("id", id);
+  const { error } = await supabase.schema("public").from("loglines").delete().eq("id", id);
 
   if (error) {
     console.error("Error deleting logline:", error);
@@ -94,7 +100,7 @@ export async function deleteComment(id: string, loglineId: string) {
   if (!user) return { error: "認証が必要です" };
 
   const supabase = createAdminClient();
-  const { error } = await supabase.from("comments").delete().eq("id", id);
+  const { error } = await supabase.schema("public").from("comments").delete().eq("id", id);
 
   if (error) {
     console.error("Error deleting comment:", error);
@@ -102,6 +108,7 @@ export async function deleteComment(id: string, loglineId: string) {
   }
 
   const { data: current } = await supabase
+    .schema("public")
     .from("loglines")
     .select("comment_count")
     .eq("id", loglineId)
@@ -109,6 +116,7 @@ export async function deleteComment(id: string, loglineId: string) {
 
   if (current && current.comment_count > 0) {
     await supabase
+      .schema("public")
       .from("loglines")
       .update({ comment_count: current.comment_count - 1 })
       .eq("id", loglineId);
@@ -127,6 +135,7 @@ export async function updateLoglineCategory(id: string, category: string) {
 
   const supabase = createAdminClient();
   const { error } = await supabase
+    .schema("public")
     .from("loglines")
     .update({ category: category.trim() || null })
     .eq("id", id);
@@ -145,6 +154,7 @@ export async function updateLoglineCategory(id: string, category: string) {
 export async function incrementShareCount(id: string) {
   const supabase = await createClient();
   const { data: current, error: fetchError } = await supabase
+    .schema("public")
     .from("loglines")
     .select("share_count")
     .eq("id", id)
@@ -156,6 +166,7 @@ export async function incrementShareCount(id: string) {
   }
 
   const { error } = await supabase
+    .schema("public")
     .from("loglines")
     .update({ share_count: current.share_count + 1 })
     .eq("id", id);
