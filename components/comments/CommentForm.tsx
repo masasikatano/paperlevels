@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { createComment } from "@/lib/actions";
 import { toast } from "sonner";
+import { MessageSquarePlus } from "lucide-react";
 
 interface CommentFormProps {
   loglineId: string;
@@ -33,7 +34,7 @@ export function CommentForm({ loglineId }: CommentFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3"
+      className="rounded-xl border border-border/60 bg-card p-5 shadow-sm"
     >
       <Textarea
         name="content"
@@ -43,13 +44,25 @@ export function CommentForm({ loglineId }: CommentFormProps) {
         rows={4}
         maxLength={5000}
         required
-        className="resize-none bg-white"
+        className="resize-none border-0 bg-transparent px-0 text-[15px] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
       />
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-foreground">
-          {content.length} / 5000文字
+      <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-3">
+        <span
+          className={`text-xs font-medium transition-colors ${
+            content.length >= 5000
+              ? "text-destructive"
+              : "text-muted-foreground"
+          }`}
+        >
+          {content.length} / 5000
         </span>
-        <Button type="submit" disabled={pending} size="sm">
+        <Button
+          type="submit"
+          disabled={pending || content.length === 0}
+          size="sm"
+          className="gap-1.5 rounded-lg px-4"
+        >
+          <MessageSquarePlus className="h-3.5 w-3.5" />
           {pending ? "投稿中..." : "コメントする"}
         </Button>
       </div>

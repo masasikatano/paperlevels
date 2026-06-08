@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Link2 } from "lucide-react";
 
 interface OgpData {
   title?: string;
@@ -46,7 +47,7 @@ export function OgpPreview({ url }: OgpPreviewProps) {
 
   if (loading) {
     return (
-      <div className="mt-2 rounded-md border bg-muted/50 p-3 animate-pulse">
+      <div className="mt-2 rounded-lg border border-border/40 bg-muted/30 p-3 animate-pulse">
         <div className="h-4 w-3/4 bg-muted rounded mb-2" />
         <div className="h-3 w-full bg-muted rounded" />
       </div>
@@ -59,8 +60,9 @@ export function OgpPreview({ url }: OgpPreviewProps) {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 inline-block text-sm text-primary hover:underline break-all"
+        className="mt-2 inline-flex items-center gap-1.5 text-sm text-primary hover:underline break-all transition-colors"
       >
+        <Link2 className="h-3.5 w-3.5 shrink-0" />
         {url}
       </a>
     );
@@ -71,7 +73,7 @@ export function OgpPreview({ url }: OgpPreviewProps) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-2 block rounded-md border bg-white overflow-hidden hover:shadow-sm transition-shadow"
+      className="mt-2 block rounded-lg border border-border/40 bg-card overflow-hidden hover:shadow-sm transition-all duration-300 hover:border-border"
     >
       {ogp.image?.url && (
         <div className="aspect-video w-full overflow-hidden bg-muted">
@@ -79,7 +81,7 @@ export function OgpPreview({ url }: OgpPreviewProps) {
           <img
             src={ogp.image.url}
             alt={ogp.title || ""}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
             loading="lazy"
           />
         </div>
@@ -91,11 +93,11 @@ export function OgpPreview({ url }: OgpPreviewProps) {
           </p>
         )}
         {ogp.description && (
-          <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+          <p className="text-xs text-muted-foreground mt-1 line-clamp-2 leading-relaxed">
             {ogp.description}
           </p>
         )}
-        <p className="text-xs text-muted-foreground mt-1 truncate">{url}</p>
+        <p className="text-xs text-muted-foreground/60 mt-1.5 truncate">{url}</p>
       </div>
     </a>
   );

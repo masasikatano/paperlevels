@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { createLogline } from "@/lib/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Send } from "lucide-react";
 
 export function LoglineForm() {
   const [content, setContent] = useState("");
@@ -34,23 +35,35 @@ export function LoglineForm() {
     <form
       ref={formRef}
       action={handleSubmit}
-      className="flex flex-col gap-3"
+      className="rounded-xl border border-border/60 bg-card p-5 shadow-sm"
     >
       <Textarea
         name="content"
-        placeholder="サイトの目的を1行で表現"
+        placeholder="サイトの目的を1行で表現..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
         rows={3}
         maxLength={140}
         required
-        className="resize-none bg-white"
+        className="resize-none border-0 bg-transparent px-0 text-[15px] shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
       />
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-foreground">
-          {content.length} / 140文字
+      <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-3">
+        <span
+          className={`text-xs font-medium transition-colors ${
+            content.length >= 140
+              ? "text-destructive"
+              : "text-muted-foreground"
+          }`}
+        >
+          {content.length} / 140
         </span>
-        <Button type="submit" disabled={pending} size="sm">
+        <Button
+          type="submit"
+          disabled={pending || content.length === 0}
+          size="sm"
+          className="gap-1.5 rounded-lg px-4"
+        >
+          <Send className="h-3.5 w-3.5" />
           {pending ? "投稿中..." : "投稿する"}
         </Button>
       </div>

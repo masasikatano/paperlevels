@@ -2,8 +2,6 @@ import { Suspense } from "react";
 import { LoglineForm } from "@/components/loglines/LoglineForm";
 import { LoglineCard } from "@/components/loglines/LoglineCard";
 import { getLoglines } from "@/lib/data";
-// import { Input } from "@/components/ui/input";
-// import { Search } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -22,57 +20,42 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const loglines = await getLoglines(sort, search);
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
+    <div className="mx-auto max-w-2xl px-4 py-12 md:py-16">
       {/* Hero */}
-      <section className="mb-8 text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
-          あなたが欲しいサイトを1行で投稿
+      <section className="mb-12 text-center">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          あなたが欲しいサイトを
+          <br className="hidden sm:block" />
+          <span className="text-muted-foreground">1行で投稿</span>
         </h1>
-        {/* <p className="text-muted-foreground">
-          1行でアイデアの需要を早期検証
-        </p> */}
+        <p className="mt-4 text-base text-muted-foreground sm:text-lg">
+          アイデアの需要を、最小限の入力で早期に検証する
+        </p>
       </section>
 
       {/* Post Form */}
-      <section className="mb-8">
+      <section className="mb-10">
         <LoglineForm />
       </section>
 
-      {/* Search - コメントアウト中
-      <section className="mb-4">
-        <form className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            name="q"
-            placeholder="検索..."
-            defaultValue={search}
-            className="pl-9 bg-white"
-          />
-          {sort !== "popular" && (
-            <input type="hidden" name="sort" value={sort} />
-          )}
-        </form>
-      </section>
-      */}
-
       {/* Sort Tabs */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="mb-6 flex items-center gap-1 rounded-full bg-secondary p-1 w-fit">
         <a
           href={`?${search ? `q=${encodeURIComponent(search)}&` : ""}sort=popular`}
-          className={`inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium transition-colors ${
+          className={`inline-flex items-center justify-center rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
             sort === "popular"
-              ? "bg-primary text-primary-foreground shadow"
-              : "bg-white text-foreground hover:bg-muted border"
+              ? "bg-card text-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           人気順
         </a>
         <a
           href={`?${search ? `q=${encodeURIComponent(search)}&` : ""}sort=newest`}
-          className={`inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium transition-colors ${
+          className={`inline-flex items-center justify-center rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
             sort === "newest"
-              ? "bg-primary text-primary-foreground shadow"
-              : "bg-white text-foreground hover:bg-muted border"
+              ? "bg-card text-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           新着順
@@ -80,12 +63,28 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       </div>
 
       {/* List */}
-      <Suspense fallback={<p className="text-center text-muted-foreground">読み込み中...</p>}>
-        <div className="flex flex-col gap-4">
+      <Suspense
+        fallback={
+          <div className="flex flex-col gap-3">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="h-28 animate-pulse rounded-xl bg-muted"
+              />
+            ))}
+          </div>
+        }
+      >
+        <div className="flex flex-col gap-3">
           {loglines.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">
-              まだ投稿がありません
-            </p>
+            <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16 text-center">
+              <p className="text-sm text-muted-foreground">
+                まだ投稿がありません
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground/60">
+                最初のログラインを投稿してみましょう
+              </p>
+            </div>
           ) : (
             loglines.map((logline) => (
               <LoglineCard key={logline.id} logline={logline} />

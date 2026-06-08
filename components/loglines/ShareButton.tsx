@@ -52,11 +52,11 @@ export function ShareButton({ id, content, initialCount }: ShareButtonProps) {
       variant="outline"
       size="sm"
       onClick={handleShare}
-      className="gap-1"
+      className="gap-1.5 rounded-lg border-border/60 text-xs font-medium"
     >
-      <Share2 className="h-4 w-4" />
+      <Share2 className="h-3.5 w-3.5" />
       シェア
-      <span className="ml-1 text-xs text-muted-foreground">({count})</span>
+      <span className="ml-0.5 text-muted-foreground">{count}</span>
     </Button>
   );
 }

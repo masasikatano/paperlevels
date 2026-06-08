@@ -4,9 +4,10 @@ import { ShareButton } from "@/components/loglines/ShareButton";
 import { CommentForm } from "@/components/comments/CommentForm";
 import { CommentList } from "@/components/comments/CommentList";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, ArrowLeft } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ja } from "date-fns/locale";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -30,20 +31,34 @@ export default async function DetailPage({ params }: DetailPageProps) {
   });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
+    <div className="mx-auto max-w-2xl px-4 py-8 md:py-12">
+      {/* Back Link */}
+      <Link
+        href="/"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        一覧に戻る
+      </Link>
+
       {/* Logline Content */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold leading-relaxed text-foreground mb-4">
+      <article className="rounded-xl border border-border/60 bg-card p-6 md:p-8 shadow-sm">
+        <h1 className="text-xl font-semibold leading-relaxed text-foreground md:text-2xl">
           {logline.content}
         </h1>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
             {logline.category && (
-              <Badge variant="secondary">{logline.category}</Badge>
+              <Badge
+                variant="secondary"
+                className="rounded-md px-2 py-0.5 text-[11px] font-medium"
+              >
+                {logline.category}
+              </Badge>
             )}
-            <span className="text-sm text-muted-foreground">{timeAgo}</span>
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <MessageSquare className="h-4 w-4" />
+            <span className="text-xs text-muted-foreground">{timeAgo}</span>
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <MessageSquare className="h-3.5 w-3.5" />
               <span>{logline.comment_count}</span>
             </div>
           </div>
@@ -53,17 +68,22 @@ export default async function DetailPage({ params }: DetailPageProps) {
             initialCount={logline.share_count}
           />
         </div>
-      </div>
+      </article>
 
       {/* Comments Section */}
-      <div className="border-t pt-6">
-        <h2 className="text-lg font-semibold mb-4">
-          コメント ({comments.length})
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold tracking-tight">
+          コメント
+          <span className="ml-2 text-sm font-normal text-muted-foreground">
+            {comments.length}
+          </span>
         </h2>
-        <div className="mb-6">
+        <div className="mt-4">
           <CommentForm loglineId={logline.id} />
         </div>
-        <CommentList comments={comments} />
+        <div className="mt-6">
+          <CommentList comments={comments} />
+        </div>
       </div>
     </div>
   );
