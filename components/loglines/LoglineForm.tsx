@@ -38,7 +38,7 @@ export function LoglineForm() {
     >
       <Textarea
         name="content"
-        placeholder="サイト・プロダクトの目的を一文で表現（1〜140文字）"
+        placeholder="サイトの目的を1行で表現"
         value={content}
         onChange={(e) => setContent(e.target.value)}
         rows={3}

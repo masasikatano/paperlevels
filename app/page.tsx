@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import { LoglineForm } from "@/components/loglines/LoglineForm";
 import { LoglineCard } from "@/components/loglines/LoglineCard";
 import { getLoglines } from "@/lib/data";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+// import { Input } from "@/components/ui/input";
+// import { Search } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -26,11 +26,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       {/* Hero */}
       <section className="mb-8 text-center">
         <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
-          一枚の紙に、需要のレベルを測る
+          あなたが欲しいサイトを1行で投稿
         </h1>
-        <p className="text-muted-foreground">
-          ログラインだけで、アイデアの需要を早期検証
-        </p>
+        {/* <p className="text-muted-foreground">
+          1行でアイデアの需要を早期検証
+        </p> */}
       </section>
 
       {/* Post Form */}
@@ -38,13 +38,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <LoglineForm />
       </section>
 
-      {/* Search */}
+      {/* Search - コメントアウト中
       <section className="mb-4">
         <form className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             name="q"
-            placeholder="ログラインを検索..."
+            placeholder="検索..."
             defaultValue={search}
             className="pl-9 bg-white"
           />
@@ -53,6 +53,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           )}
         </form>
       </section>
+      */}
 
       {/* Sort Tabs */}
       <div className="flex items-center gap-2 mb-4">
