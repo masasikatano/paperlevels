@@ -28,17 +28,13 @@ export async function createLogline(formData: FormData) {
   return { success: true, id: data.id };
 }
 
-export async function createComment(formData: FormData) {
-  const loglineId = formData.get("logline_id") as string;
-  const authorName = formData.get("author_name") as string;
-  const content = formData.get("content") as string;
-
+export async function createComment(loglineId: string, content: string) {
   if (!loglineId) {
     return { error: "ログラインIDが必要です" };
   }
 
-  if (!content || content.trim().length === 0 || content.trim().length > 1000) {
-    return { error: "コメントは1〜1000文字で入力してください" };
+  if (!content || content.trim().length === 0 || content.trim().length > 5000) {
+    return { error: "コメントは1〜5000文字で入力してください" };
   }
 
   const supabase = await createClient();
@@ -47,7 +43,6 @@ export async function createComment(formData: FormData) {
     .from("comments")
     .insert({
       logline_id: loglineId,
-      author_name: authorName?.trim() || null,
       content: content.trim(),
     });
 

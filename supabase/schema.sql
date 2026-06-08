@@ -19,8 +19,7 @@ CREATE TABLE IF NOT EXISTS loglines (
 CREATE TABLE IF NOT EXISTS comments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   logline_id UUID NOT NULL REFERENCES loglines(id) ON DELETE CASCADE,
-  author_name VARCHAR(30) NULL,
-  content TEXT NOT NULL CHECK (char_length(content) >= 1 AND char_length(content) <= 1000),
+  content TEXT NOT NULL CHECK (char_length(content) >= 1 AND char_length(content) <= 5000),
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

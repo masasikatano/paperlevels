@@ -34,10 +34,7 @@ export function CommentList({ comments }: CommentListProps) {
             key={comment.id}
             className="rounded-lg border bg-white p-4"
           >
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-sm font-medium">
-                {comment.author_name || "名無しさん"}
-              </span>
+            <div className="mb-2 text-right">
               <span className="text-xs text-muted-foreground">
                 {formatDistanceToNow(new Date(comment.created_at), {
                   addSuffix: true,

@@ -11,7 +11,6 @@ export interface Logline {
 export interface Comment {
   id: string;
   logline_id: string;
-  author_name: string | null;
   content: string;
   created_at: string;
 }

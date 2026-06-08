@@ -157,7 +157,6 @@ export default async function AdminPage() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-1/3">内容</TableHead>
-                <TableHead>投稿者</TableHead>
                 <TableHead>ログライン</TableHead>
                 <TableHead>投稿日時</TableHead>
                 <TableHead>操作</TableHead>
@@ -169,7 +168,6 @@ export default async function AdminPage() {
                   <TableCell className="font-medium max-w-xs truncate">
                     {comment.content}
                   </TableCell>
-                  <TableCell>{comment.author_name || "名無しさん"}</TableCell>
                   <TableCell>
                     <a
                       href={`/p/${comment.logline_id}`}
