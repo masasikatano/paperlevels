@@ -14,7 +14,7 @@ interface HomePageProps {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
-  const sort = params.sort === "newest" ? "newest" : "popular";
+  const sort = params.sort === "popular" ? "popular" : "newest";
   const search = params.q || "";
 
   const loglines = await getLoglines(sort, search);
@@ -29,7 +29,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <span className="text-muted-foreground">1行で投稿</span>
         </h1>
         <p className="mt-4 text-base text-muted-foreground sm:text-lg">
-          アイデアの需要を、最小限の入力で早期に検証する
+          アイデアの需要を、最小限で早期に検証
         </p>
       </section>
 

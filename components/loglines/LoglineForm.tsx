@@ -27,7 +27,7 @@ export function LoglineForm() {
     toast.success("投稿しました！");
     setContent("");
     if (result.id) {
-      router.push(`/p/${result.id}`);
+      router.push("/");
     }
   }
 
